@@ -16,11 +16,17 @@ typedef struct{
     int x,y;
 }position;
 
+struct pion{
+    int pos;
+    int id;
+};
+
 typedef struct{
     int identifiant;
     char cotes[4];
     char centre;
     position pos;
+    struct pion pion_pos;
 }tuile;
 
 #endif // GAME_STRUCTURES
