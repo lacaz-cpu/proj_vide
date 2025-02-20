@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "game_structures.h"
 
 
