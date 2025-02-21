@@ -1,4 +1,7 @@
 #include "game_structures.h"
+#define MAX_PLATEAU 143
+#define max_pos_possibles 432
+
 
 void initPlateau(Plateau *plateau);
 

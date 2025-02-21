@@ -19,6 +19,7 @@ void parseur_csv(char* fileName, tuile* pile) {
                     tile.centre = value[0];
             }
             nb++;
+
             value = strtok(NULL, ", ");
         }
         pile[index] = tile;

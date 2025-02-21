@@ -8,14 +8,23 @@ void initJoueurs(joueur joueurs[],int nombreJoueurs){
     }
 }
 
-
-void initPlateau(Plateau *plateau){
-    Plateau * plateau = (Plateau*)malloc(sizeof(Plateau));
-    plateau->plateau = (tuile**)malloc(NB_TUILES*sizeof(tuile*));
-    for(int i = 0; i < NB_TUILES;i++){
-        plateau->plateau[i] = (tuile*)malloc(NB_TUILES*sizeof(tuile));
+void init_plateau(struct piece plateau[MAX_PLATEAU][MAX_PLATEAU]){
+    struct piece p;
+    p.n=-1;
+    p.s=-1;
+    p.e=-1;
+    p.o=-1;
+    p.c=-1;
+    p.type_pion=0;
+    p.evaluation=0;
+    for (int i=0; i<143;++i){
+        for (int j=0; j<143;++j){
+                plateau[i][j]=p;
+            
+        }
     }
 }
+
 
 void free_plateau(Plateau * plateau){
     for(int i = 0; i < NB_TUILES;i++)

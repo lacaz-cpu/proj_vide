@@ -25,5 +25,6 @@ lecteur_csv.o: $(SRC)lecteur_csv.c
 
 fonction_jeu.o : $(SRC)fonction_jeu.c 
 	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
+	
 clean:
 	rm $(BIN)* $(OBJ)*
