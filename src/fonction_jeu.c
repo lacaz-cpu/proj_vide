@@ -5,6 +5,8 @@ void initJoueurs(joueur joueurs[],int nombreJoueurs){
         joueurs[i].id = i;
         joueurs[i].score = 0;
         joueurs[i].pion = 7; 
+
+        printf("coucou");
     }
 }
 
