@@ -3,12 +3,11 @@
 #define max_pos_possibles 432
 
 
-void initPlateau(Plateau *plateau);
+
+void initJoueurs(joueur joueurs[],int nombreJoueurs);
+
+void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]);
 
 tuile define_tuiledepart();
 
-void initTuileDepart(Plateau *plateau);
-
-void free_plateau(Plateau * plateau);
-
-void initJoueurs(joueur joueurs[],int nombreJoueurs);
+void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]);

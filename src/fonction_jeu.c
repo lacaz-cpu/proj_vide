@@ -5,34 +5,24 @@ void initJoueurs(joueur joueurs[],int nombreJoueurs){
         joueurs[i].id = i;
         joueurs[i].score = 0;
         joueurs[i].pion = 7; 
-
-        printf("coucou");
     }
 }
 
-void init_plateau(struct piece plateau[MAX_PLATEAU][MAX_PLATEAU]){
-    struct piece p;
-    p.n=-1;
-    p.s=-1;
-    p.e=-1;
-    p.o=-1;
-    p.c=-1;
-    p.type_pion=0;
-    p.evaluation=0;
+void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]){
+    tuile p;
+    p.centre = -1;
+    for(int i = 0; i < 4;i++){
+        p.cotes[i] = -1;
+    }
+    p.identifiant = -1;
+    p.posee = -1;
     for (int i=0; i<143;++i){
         for (int j=0; j<143;++j){
-                plateau[i][j]=p;
+                grille[i][j]=p;
             
         }
     }
-}
-
-
-void free_plateau(Plateau * plateau){
-    for(int i = 0; i < NB_TUILES;i++)
-        free(plateau->plateau[i]);
-    free(plateau->plateau);
-    free(plateau);
+    initTuileDepart(grille);
 }
 
 tuile define_tuiledepart(){ // creer la tuile de départ 
@@ -46,9 +36,9 @@ tuile define_tuiledepart(){ // creer la tuile de départ
     return tuile;
 }
 
-void initTuileDepart(Plateau *plateau){ // assigne la tuile de départ au plateau
+void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de départ au plateau
     tuile t = define_tuiledepart();
-    plateau->plateau[0][0] = t;
+    grille[0][0] = t;
 }
 
 

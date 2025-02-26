@@ -6,6 +6,7 @@
 #include <time.h>
 
 #define NB_TUILES 72
+#define NB_GRILLE 143
 
 typedef struct{
     int id;
@@ -19,9 +20,5 @@ typedef struct{
     char centre;
     int posee;
 }tuile;
-
-typedef struct{
-    tuile **plateau;
-}Plateau;
 
 #endif // GAME_STRUCTURES
