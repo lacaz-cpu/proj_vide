@@ -15,7 +15,7 @@ void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]){
         p.cotes[i] = -1;
     }
     p.identifiant = -1;
-    p.posee = -1;
+    p.posee = 0;
     for (int i=0; i<143;++i){
         for (int j=0; j<143;++j){
                 grille[i][j]=p;
@@ -38,7 +38,26 @@ tuile define_tuiledepart(){ // creer la tuile de départ
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de départ au plateau
     tuile t = define_tuiledepart();
-    grille[0][0] = t;
+    grille[mid][mid] = t;
 }
 
+void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
+    grille[x][y] = t;
+    grille[x][y].posee = 1;
+}
 
+void placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){
+    int nb = 0;
+    if(grille[x][y].posee == 0){
+        if(grille[x-1][y].posee == 0 || grille[x-1][y].cotes[SUD] == tl.cotes[NORD])
+            nb ++;
+        if(grille[x+1][y].posee == 0 || grille[x+1][y].cotes[NORD] == tl.cotes[SUD])
+            nb ++;
+        if(grille[x][y-1].posee == 0 || grille[x][y-1].cotes[OUEST] == tl.cotes[EST])
+            nb ++;
+        if(grille[x][y+1].posee == 0 || grille[x][y+1].cotes[EST] == tl.cotes[OUEST])
+            nb ++;
+    }
+    if(nb == 4)
+        placer_tuile(grille,tl,x,y);
+}
