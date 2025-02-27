@@ -113,6 +113,6 @@ void afficher_pile(tuile * pile){
     }
 }
 
-void piocher(tuile * Pile,int nbtour){
-
+tuile piocher(tuile * Pile,int nb_tours){
+    return Pile[0];
 }
