@@ -14,13 +14,10 @@ all: $(EXEC)
 run: $(EXEC)
 	$(BIN)$<
 
-$(EXEC): moteur_jeu.o lecteur_csv.o fonction_jeu.o
+$(EXEC): moteur_jeu.o fonction_jeu.o
 	$(CC) $(OBJ)*  -o $(BIN)$@
 	
 moteur_jeu.o: $(SRC)moteur_jeu.c
-	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
-
-lecteur_csv.o: $(SRC)lecteur_csv.c
 	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
 
 fonction_jeu.o : $(SRC)fonction_jeu.c 
