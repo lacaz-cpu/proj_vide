@@ -47,8 +47,8 @@ void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
     grille[x][y].posee = 1;
 }
 
-void placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){
-    int nb = 0;
+void placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ // vérifie si la tuile peut etre placer 
+    int nb = 0; // a vérifier car fonctionnement pas sur
     if(grille[x][y].posee == 0){
         if(grille[x-1][y].posee == 0 || grille[x-1][y].cotes[EST] == tl.cotes[OUEST])
             nb ++;
@@ -93,7 +93,7 @@ void parseur_csv(char* fileName, tuile* pile) {
 fclose(fichier);
 }
 
-void melange(tuile * pile){
+void melange(tuile * pile){ // mélange la pile 
     srand(time(NULL));
     tuile tmp;
     int nb = 71;
@@ -107,16 +107,17 @@ void melange(tuile * pile){
     }
 }
 
-void afficher_pile(tuile * pile){
+void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre dans laquel la pile a était melanger et si la pile a bien était melanger
     for(int i = 0; i < NB_TUILES;i++){
         printf("%d\n",pile[i].identifiant);
     }
 }
 
-tuile piocher(tuile * Pile){
+tuile piocher(tuile * Pile){ // pioche le premiere élément et décale le reste 
     tuile pc = Pile[0];
     for(int i = 1;i < NB_TUILES;i++){
         Pile[i-1] = Pile[i];
     }
+    pile[NB_TUILES] = NULL; // le nul est a modifier par une tuile vide
     return pc;
 }
