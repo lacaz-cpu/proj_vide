@@ -12,13 +12,12 @@ int main(int argc, char * argv[])
     //afficher_pile(t);
     melange(t);
     //afficher_pile(t);
-    /*
     tuile grille[NB_GRILLE][NB_GRILLE];
     init_grille(grille);
-    placement_tuile(71,72,grille,t[0]);
+    if(placement_tuile(71,72,grille,t[0]) == 1)
+        placer_tuile(grille,t[0],71,72);
     printf("%d\n",grille[71][72].posee);
-    */
-    //printf("%c",t[1].cotes[0]);
+    printf("%c",t[1].cotes[0]);
     
     return 0;
 }
