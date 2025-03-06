@@ -56,7 +56,7 @@ void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
     grille[x][y].posee = 1;
 }
 
-
+/*
 int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ // vérifie si la tuile peut etre placer 
     int nb = 0; // a vérifier car fonctionnement pas sur
     if(grille[x][y].posee == 0){
@@ -73,11 +73,30 @@ int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ //
         return 1;
     return 0;
 }
-
+*/
+int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ // vérifie si la tuile peut etre placer 
+    int nb = 0; // a vérifier car fonctionnement pas sur
+    if(grille[x][y].posee == 0){
+        if(grille[x-1][y].posee == 0)
+            if((grille[x-1][y].cotes[EST] == 'p' && tl.cotes[OUEST]!= 'r' && tl.cotes[OUEST]!= 'v') ||(grille[x-1][y].cotes[EST] == 'r' && tl.cotes[OUEST]== 'r') ||(grille[x-1][y].cotes[EST] == 'v' && tl.cotes[OUEST]== 'v'))
+                nb ++;
+        if(grille[x+1][y].posee == 0 || grille[x+1][y].cotes[OUEST] == tl.cotes[EST])
+            nb ++;
+        if(grille[x][y-1].posee == 0 || grille[x][y-1].cotes[NORD] == tl.cotes[SUD])
+            nb ++;
+        if(grille[x][y+1].posee == 0 || grille[x][y+1].cotes[SUD] == tl.cotes[NORD])
+            nb ++;
+    }
+    printf("%d",nb);
+    if(nb == 4)
+        return 1;
+    return 0;
+}
+/*
 position * position_possible(){
     
 }
-
+*/
 
 void parseur_csv(char* fileName, tuile* pile) {
     FILE* fichier = fopen(fileName, "r");
