@@ -21,4 +21,8 @@ typedef struct{
     int posee;
 }tuile;
 
+typedef struct{
+    int x,y;
+}position;
+
 #endif // GAME_STRUCTURES

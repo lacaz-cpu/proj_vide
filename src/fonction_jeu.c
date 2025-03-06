@@ -26,6 +26,15 @@ void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]){
     initTuileDepart(grille);
 }
 
+void init_position(position tab[NB_TUILES]){
+    for(int i = 1;i <NB_TUILES;i++){
+        tab[i].x = -1;
+        tab[i].y = -1;
+    }
+    tab[0].x = 71;
+    tab[0].y = 71;
+}
+
 tuile define_tuiledepart(){ // creer la tuile de départ 
     tuile tuile;
     tuile.centre = 'r';
@@ -47,7 +56,8 @@ void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
     grille[x][y].posee = 1;
 }
 
-void placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ // vérifie si la tuile peut etre placer 
+
+int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ // vérifie si la tuile peut etre placer 
     int nb = 0; // a vérifier car fonctionnement pas sur
     if(grille[x][y].posee == 0){
         if(grille[x-1][y].posee == 0 || grille[x-1][y].cotes[EST] == tl.cotes[OUEST])
@@ -60,207 +70,14 @@ void placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ /
             nb ++;
     }
     if(nb == 4)
-        placer_tuile(grille,tl,x,y);
+        return 1;
+    return 0;
 }
-/*
-int *positions_possibles(tuile grille[NB_GRILLE][NB_GRILLE],tuile piece_a_poser,int *curseur,int nb_pieces_deja_posees){//curseur est un simple entier, nb_deja_posees=72-cpt tuiles du main
-    int *liste_positions_possibles=(int*)malloc(max_pos_possibles*sizeof(int));
-    int rotation;
-    int piece[4];
-    piece[0]=piece_a_poser.n;
-    piece[1]=piece_a_poser.e;
-    piece[2]=piece_a_poser.s;
-    piece[3]=piece_a_poser.o;
-    for (int y=0; y<143;++y){
-        for (int x=0; x<143;++x){
-            if (grille[y][x].c==-1){
-                //////////////////////////////////////////////////////
-                if(y<1 || y==142 || x==0 || x==142){
-                    //algo bordure
-                    //côtés
-                    int autour [4]={255,255,255,255};
-                    if(x==0 && y==0){//coin haut gauche
-                        if (grille[y][x+1].c!=-1 || grille[y+1][x].c!=-1){
-                            if (grille[y][x+1].c!=-1){
-                                autour[1]=grille[y][x+1].o;
-                            }
-                            if (grille[y+1][x].c!=-1){
-                                autour[2]=grille[y+1][x].n;
-                            }
-                        }
-                    }
-                    else if(x==0 && y==142){//coin bas gauche
-                        if (grille[y-1][x].c!=-1 || grille[y][x+1].c!=-1){
-                            if (grille[y-1][x].c!=-1){
-                                autour[0]=grille[y-1][x].s;
-                            }
-                            if (grille[y][x+1].c!=-1){
-                                autour[1]=grille[y][x+1].o;   
-                            }                        
-                        }
-                    }
-                    else if(x==142 && y==0){//coin haut droit
-                        if (grille[y][x-1].c!=-1 || grille[y+1][x].c!=-1){
-                            if (grille[y][x-1].c!=-1){
-                                autour[3]=grille[y][x-1].e;
-                            }
-                            if (grille[y+1][x].c!=-1){
-                                autour[2]=grille[y+1][x].n;
-                            }
-                        }
-                    }
-                    else if(x==142 && y==142){//coin bas droit
-                        if (grille[y][x-1].c!=-1 && grille[y-1][x].c!=-1){
-                            if (grille[y][x-1].c!=-1){
-                                autour[3]=grille[y][x-1].e;
-                            }
-                            if (grille[y-1][x].c!=-1){
-                                autour[0]=grille[y-1][x].s;
-                            }
-                        }
-                    }
-                    //bordures//format[s,o,n,e]
-                    else if(x==0 &&(y<142 || y>0)){//bordure gauche
-                        if (grille[y-1][x].c!=-1 || grille[y+1][x].c!=-1 || grille[y][x+1].c!=-1){
-                            if (grille[y-1][x].c!=-1){
-                                autour[0]=grille[y-1][x].s;
-                            }
-                            if (grille[y][x+1].c!=-1){
-                                autour[1]=grille[y][x+1].o;
-                            }
-                            if (grille[y+1][x].c!=-1){
-                                autour[2]=grille[y+1][x].n;
-                            }
-                        }
-                    }
-                    else if(x==142 &&(y>0 || y<142)){//bordure haut
-                        if (grille[y][x-1].c!=-1 || grille[y][x+1].c!=-1 || grille[y+1][x].c!=-1){
-                              if (grille[y][x-1].c!=-1){
-                                autour[3]=grille[y][x-1].e;
-                            }
-                            if (grille[y][x+1].c!=-1){
-                                autour[1]=grille[y][x+1].o;
-                            }
-                            if (grille[y+1][x].c!=-1){
-                                autour[2]=grille[y+1][x].n;
-                            }  
-                        }
-                    }
-                    else if(y==0 &&(x>0 || x<142)){//bordure droite
-                        if (grille[y-1][x].c!=-1 || grille[y+1][x].c!=-1 || grille[y][x-1].c!=-1){
-                              if (grille[y-1][x].c!=-1){
-                                autour[0]=grille[y-1][x].s;
-                            }
-                            if (grille[y][x-1].c!=-1){
-                                autour[3]=grille[y][x-1].e;
-                            }
-                            if (grille[y+1][x].c!=-1){
-                                autour[2]=grille[y+1][x].n;
-                            }  
-                        }
-                    }
-                    else if(y==142 &&(x>0 || x<142)){//bordure bas
-                        if (grille[y][x+1].c!=-1 || grille[y][x-1].c!=-1 || grille[y-1][x].c!=-1){
-                                if (grille[y-1][x].c!=-1){
-                                autour[0]=grille[y-1][x].s;
-                            }
-                            if (grille[y][x+1].c!=-1){
-                                autour[1]=grille[y][x+1].o;
-                            }
-                            if (grille[y][x-1].c!=-1){
-                                autour[3]=grille[y][x-1].e;
-                            }
-                        }
-                    }
-                    int cpt=0, i=1;
-                    while (i<4){//////savoir si coin ou bordure
-                        if (autour[i]!=255){
-                            cpt+=1;
-                        }
-                        i++;
-                    }
-                    i=0;
-                    int j=0;
-                    if (cpt==2){
-                        while (i<4){
-                            while (j<4){
-                                if (piece[i]==autour[j] && (piece[(i+1)%4]==autour[(j+1)%4] || autour[(j+1)%4]==255)){
-                                    int rotation=j;
-                                    liste_positions_possibles[*curseur]=x;
-                                    liste_positions_possibles[*curseur+1]=y;
-                                    liste_positions_possibles[*curseur+2]=rotation;
-                                    *curseur+=3;
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        while (i<4){
-                            while (j<4){
-                                if (piece[i]==autour[j] && (piece[(i+1)%4]==autour[(j+1)%4] || autour[(j+1)%4]==255) && (piece[(i+2)%4]==autour[(j+2)%4] || autour[(j+2)%4]==255)){
-                                    int rotation=j;
-                                    liste_positions_possibles[*curseur]=x;
-                                    liste_positions_possibles[*curseur+1]=y;
-                                    liste_positions_possibles[*curseur+2]=rotation;
-                                    *curseur+=3;
-                                }
-                            }
-                        }
-                    }
-                }
-                ////////////////////////////////////////////////////////
-                else{//algo cases centre
-                    int autour [4];//format [s,o,n,e]
-                    int i=0,cpt=0;
-                    while (i<4){//cpt cases non-vides et stock de leur valeur
-                        if(i==0 && grille[y-1][x].c!=-1){
-                            autour[i]=grille[y-1][x].s;
-                            cpt+=1;
-                        }
-                        else if(i==1 && grille[y][x+1].c!=-1){
-                            autour[i]=grille[y][x+1].o;
-                            cpt+=1;
-                        }
-                        else if(i==2 && grille[y+1][x].c!=-1){
-                            autour[i]=grille[y+1][x].n;
-                            cpt+=1;
-                        }
-                        else if(i==3 && grille[y][x-1].c!=-1){
-                            autour[i]=grille[y][x-1].e;
-                            cpt+=1;
-                        }
-                        else{
-                            autour[i]=255;
-                        }
-                    }
-                    if (cpt>0){//chercher possibilités
-                        int flag=0,i=0,j=0;
-                        while(i<4 && flag==0){
-                            while(j<4 && flag==0){
-                                if (piece[i]==autour[j]){
-                                    if ((piece[(i+1)%4]==autour[(j+1)%4] || autour[(j+1)%4]==255) && (piece[(i+2)%4]==autour[(j+2)%4] || autour[(j+1)%4]==255) && (piece[(i+3)%4]==autour[(j+3)%4] || autour[(j+1)%4]==255)){
-                                        flag=1;
-                                        int rotation=j;
-                                    }
-                                }
-                                j++;
-                            }
-                            i++;
-                        }
-                        if (flag==1){
-                            liste_positions_possibles[*curseur]=x;
-                            liste_positions_possibles[*curseur+1]=y;
-                            liste_positions_possibles[*curseur+2]=rotation;
-                            *curseur+=3;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return liste_positions_possibles; //return au format =[x,y,z,x,y,z,x,y,z,....]//retourne le pointeur du tableau
+
+position * position_possible(){
+    
 }
-*/
+
 
 void parseur_csv(char* fileName, tuile* pile) {
     FILE* fichier = fopen(fileName, "r");
@@ -309,12 +126,13 @@ void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre 
         printf("%d\n",pile[i].identifiant);
     }
 }
-
+/*
 tuile tuile_vide(){
     //renvoie une tuile vide
     tuile t;
     return t;
 }
+
 tuile piocher(tuile * Pile){ // pioche le premiere élément et décale le reste 
     tuile pc = Pile[0];
     for(int i = 1;i < NB_TUILES;i++){
@@ -323,3 +141,4 @@ tuile piocher(tuile * Pile){ // pioche le premiere élément et décale le reste
     Pile[NB_TUILES] = tuile_vide(); // le nul est a modifier par une tuile vide
     return pc;
 }
+*/

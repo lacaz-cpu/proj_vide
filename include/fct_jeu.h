@@ -18,10 +18,12 @@ void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]);
 
 void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y);
 
-void placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl);
+int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl);
 
 void parseur_csv(char * fname,tuile * Pile);
 
 void afficher_pile(tuile * Pile);
 
 void melange(tuile * Pile);
+
+void init_position(position tab[NB_TUILES]);
