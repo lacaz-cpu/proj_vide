@@ -31,5 +31,6 @@ int main(int argc, char * argv[])
     afficher_tuile(t[1]);
     printf("%d \n",grille[71][71].posee);
     printf("%c\n",grille[71][71].cotes[0]);
+    affiche_g();
     return 0;
 }
