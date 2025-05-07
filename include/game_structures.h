@@ -12,6 +12,7 @@ typedef struct{
     int id;
     int pion;
     int score;
+    int ia;
 }joueur;
 
 typedef struct{
@@ -19,6 +20,7 @@ typedef struct{
     char cotes[4];
     char centre;
     int posee;
+    int posable; 
 }tuile;
 
 typedef struct{

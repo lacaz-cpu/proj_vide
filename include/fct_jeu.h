@@ -8,15 +8,15 @@
 #define OUEST 3
 
 
-void initJoueurs(joueur joueurs[],int nombreJoueurs);
-
-void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]);
+void initJoueurs(joueur *joueurs,int *nb_joueurs,int *nb_ia);
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]);
 
-void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y);
+void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int z,int y,int w);
 
-int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl);
+void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]);
+
+int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int y,int z,int w);
 
 void parseur_csv(char * fname,tuile * Pile);
 
@@ -26,5 +26,8 @@ void melange(tuile * Pile);
 
 void init_position(position tab[NB_TUILES]);
 
+void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,int *nb_ia,joueur *Joueurs);
 
 tuile rotation_tuile(tuile t);
+
+tuile piocher(tuile *pile,int nb_tour);

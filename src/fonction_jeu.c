@@ -1,92 +1,75 @@
 #include "fct_jeu.h"
+#include "affichage.h"
 tuile depart;
 
-void initJoueurs(joueur joueurs[],int nombreJoueurs){
-    for(int i = 0;i < nombreJoueurs;i++){
+void initJoueurs(joueur *joueurs,int *nb_joueurs,int *nb_ia){
+    int i;
+    for (i = 0; i < *nb_joueurs; i++){
+        joueurs[i].ia = 0;
+        joueurs[i].id = i;
+        joueurs[i].score = 0;
+        joueurs[i].pion = 7;
+    }
+    for (i = *nb_joueurs; i < *nb_joueurs + *nb_ia; i++){
+        joueurs[i].ia = 1;
         joueurs[i].id = i;
         joueurs[i].score = 0;
         joueurs[i].pion = 7; 
     }
-}
 
-void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]){
-    tuile p;
-    p.centre = -1;
-    for(int i = 0; i < 4;i++){
-        p.cotes[i] = -1;
-    }
-    p.identifiant = -1;
-    p.posee = 0;
-    for (int i=0; i<143;++i){
-        for (int j=0; j<143;++j){
-                grille[i][j]=p;
-            
-        }
-    }
-    initTuileDepart(grille);
 }
-
-void init_position(position tab[NB_TUILES]){
-    for(int i = 1;i <NB_TUILES;i++){
-        tab[i].x = -1;
-        tab[i].y = -1;
-    }
-    tab[0].x = 71;
-    tab[0].y = 71;
-}
-
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de départ au grille
     tuile t = depart;
     t.posee = 1;
+    t.posable = 0;
     grille[mid][mid] = t;
 }
 
-void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
+void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y,int z,int w){
     grille[x][y] = t;
     grille[x][y].posee = 1;
 }
 
-/*
-int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ // vérifie si la tuile peut etre placer 
-    int nb = 0; // a vérifier car fonctionnement pas sur
-    if(grille[x][y].posee == 0){
-        if(grille[x-1][y].posee == 0 || grille[x-1][y].cotes[EST] == tl.cotes[OUEST])
-            nb ++;
-        if(grille[x+1][y].posee == 0 || grille[x+1][y].cotes[OUEST] == tl.cotes[EST])
-            nb ++;
-        if(grille[x][y-1].posee == 0 || grille[x][y-1].cotes[NORD] == tl.cotes[SUD])
-            nb ++;
-        if(grille[x][y+1].posee == 0 || grille[x][y+1].cotes[SUD] == tl.cotes[NORD])
-            nb ++;
+void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]){
+    for(int i = 0; i < NB_GRILLE;i++){
+        for(int j = 0;j < NB_GRILLE;j++){
+            grille[i][j].posee = 0;
+        }
     }
-    if(nb == 4)
-        return 1;
-    return 0;
 }
-*/
-int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ // vérifie si la tuile peut etre placer 
-    int nb = 0; // a vérifier car fonctionnement pas sur
-    if(grille[x][y].posee == 0){
-        if(grille[x-1][y].posee == 0)
-            if((grille[x-1][y].cotes[EST] == 'p' && tl.cotes[OUEST]!= 'r' && tl.cotes[OUEST]!= 'v') ||(grille[x-1][y].cotes[EST] == 'r' && tl.cotes[OUEST]== 'r') ||(grille[x-1][y].cotes[EST] == 'v' && tl.cotes[OUEST]== 'v'))
-                nb ++;
-        if(grille[x+1][y].posee == 0 || grille[x+1][y].cotes[OUEST] == tl.cotes[EST])
-            nb ++;
-        if(grille[x][y-1].posee == 0 || grille[x][y-1].cotes[NORD] == tl.cotes[SUD])
-            nb ++;
-        if(grille[x][y+1].posee == 0 || grille[x][y+1].cotes[SUD] == tl.cotes[NORD])
-            nb ++;
+
+int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int z,int y,int w){ // vérifie si la tuile peut etre placer 
+    int nb = 0;
+    for (int i = x - 1; i <= z + 1; i++)
+    {
+        for (int j = y - 1; j <= w + 1; j++)
+        {
+            if (grille[i][j].posee == 0)
+            {
+                if (grille[i - 1][j].posee == 1 || grille[i][j + 1].posee == 1 || grille[i + 1][j].posee == 1 || grille[i][j - 1].posee == 1)
+                {
+                    //vérifie si chaque bord de la tuiles et compatible 
+                    if (((tl.cotes[0] == grille[i - 1][j].cotes[2] || grille[i - 1][j].posee == 0) || ((tl.cotes[0] == 'v' || tl.cotes[0] == 'b') && (grille[i - 1][j].cotes[2] == 'v' || grille[i - 1][j].cotes[2] == 'b' || grille[i - 1][j].posee == 0))) &&
+                        ((tl.cotes[1] == grille[i][j + 1].cotes[3] || grille[i][j + 1].posee == 0) || ((tl.cotes[1] == 'v' || tl.cotes[1] == 'b') && (grille[i][j + 1].cotes[3] == 'v' || grille[i][j + 1].cotes[3] == 'b' || grille[i][j + 1].posee == 0))) &&
+                        ((tl.cotes[2] == grille[i + 1][j].cotes[0] || grille[i + 1][j].posee == 0) || ((tl.cotes[2] == 'v' || tl.cotes[2] == 'b') && (grille[i + 1][j].cotes[0] == 'v' || grille[i + 1][j].cotes[0] == 'b' || grille[i + 1][j].posee == 0))) &&
+                        ((tl.cotes[3] == grille[i][j - 1].cotes[1] || grille[i][j - 1].posee == 0) || ((tl.cotes[3] == 'v' || tl.cotes[3] == 'b') && (grille[i][j - 1].cotes[1] == 'v' || grille[i][j - 1].cotes[1] == 'b' || grille[i][j - 1].posee == 0))))
+                    {
+                        grille[i][j].posable = 1;
+                        nb++;
+                    }
+                    else
+                        grille[i][j].posable = 0;
+                }
+                else
+                    grille[i][j].posable = 0;
+            }
+            else
+                grille[i][j].posable = 0;
+        }
     }
-    if(nb == 4)
-        return 1;
-    return 0;
+    return nb;
 }
-/*
-position * position_possible(){
-    
-}
-*/
 
 void parseur_csv(char* fileName, tuile* pile) {
     FILE* fichier = fopen(fileName, "r");
@@ -106,7 +89,6 @@ void parseur_csv(char* fileName, tuile* pile) {
                     tile.centre = value[0];
             }
             nb++;
-
             value = strtok(NULL, ", ");
         }
         if(index == 0){
@@ -114,8 +96,8 @@ void parseur_csv(char* fileName, tuile* pile) {
             depart.identifiant = index;
         }
         else{
-            pile[index] = tile;
-            pile[index].identifiant = index;
+            pile[index-1] = tile;
+            pile[index-1].identifiant = index;
         }
         index++;
     }
@@ -142,8 +124,24 @@ void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre 
     }
 }
 
+void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,int *nb_ia,joueur *Joueurs){ // définie le nombre de joueur et d'ia et initialise la partie
+    printf("\v\v\v\v\v\tNombre de joueurs : ");
+    scanf("%d", nb_joueurs);
+    printf("\n\n\tNombre d'IA : ");
+    scanf("%d", nb_ia);
+    printf("\n");
+    if (*nb_joueurs + *nb_ia < 2 || *nb_joueurs + *nb_ia > 5)
+    {
+        printf("\tLe nombre de joueurs doit être compris entre 2 et 5.\n");
+        partie(grille, nb_joueurs, nb_ia, Joueurs);
+    }
+    init_grille(grille);
+    initJoueurs(Joueurs,nb_joueurs,nb_ia);
+    initTuileDepart(grille);
+}
 
-tuile rotation_tuile(tuile T){
+
+tuile rotation_tuile(tuile T){ // rotation de la tuile de 90 degrès sur la droite
     int i, tmp = T.cotes[3];
 
     for (i = 3; i > 0; i--)
@@ -152,19 +150,14 @@ tuile rotation_tuile(tuile T){
     return T;
 }
 
-/*
-tuile tuile_vide(){
-    //renvoie une tuile vide
-    tuile t;
-    return t;
+tuile piocher(tuile *pile,int nb_tour){// pioche le premiere élément et décale le reste 
+    pile[0].posee = 1;
+    pile[0].posable = 0;
+    tuile tmp = pile[0];
+    for(int i = 1;i < NB_TUILES-nb_tour;i++){
+        pile[i-1] = pile[i];
+    } 
+    return tmp;
 }
 
-tuile piocher(tuile * Pile){ // pioche le premiere élément et décale le reste 
-    tuile pc = Pile[0];
-    for(int i = 1;i < NB_TUILES;i++){
-        Pile[i-1] = Pile[i];
-    }
-    Pile[NB_TUILES] = tuile_vide(); // le nul est a modifier par une tuile vide
-    return pc;
-}
-*/
+

@@ -25,7 +25,7 @@ void affiche_g(){
 void affichage(tuile grille[NB_GRILLE][NB_GRILLE]){
     for(int i = 0;i < NB_GRILLE ; i++){
         for(int j = 0; j < NB_GRILLE;j++){
-            if(grille[i][j].posee ==1){
+            if(grille[i][j].posee == 1){
                 printf("\n");
                 printf("-----------\n");
                 printf("|    %c    |\n", grille[i][j].cotes[0]);
@@ -49,6 +49,3 @@ void afficher_tuile(tuile tuile){
     printf("|    %c    |\n", tuile.cotes[2]);
     printf("-----------\n\n");
 }
-
-
-__TIME_T_TYPE
