@@ -49,3 +49,6 @@ void afficher_tuile(tuile tuile){
     printf("|    %c    |\n", tuile.cotes[2]);
     printf("-----------\n\n");
 }
+
+
+__TIME_T_TYPE
