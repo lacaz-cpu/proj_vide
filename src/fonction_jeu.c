@@ -26,7 +26,7 @@ void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de
     grille[mid][mid] = t;
 }
 
-void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y,int z,int w){
+void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
     grille[x][y] = t;
     grille[x][y].posee = 1;
 }

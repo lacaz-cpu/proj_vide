@@ -12,7 +12,7 @@ void initJoueurs(joueur *joueurs,int *nb_joueurs,int *nb_ia);
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]);
 
-void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int z,int y,int w);
+void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y);
 
 void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]);
 

@@ -18,5 +18,12 @@ int main(int argc, char * argv[])
     tuile tr = piocher(t,0);
     afficher_tuile(tr);
     printf("%d",placement_tuile(grille,tr,71,71,71,71));
+    if(placement_tuile(grille,tr,71,71,71,71) > 0){
+        int x,y;
+        printf("entrez les coordonnée");
+        scanf("%d %d",&x,&y);
+        placer_tuile(grille,tr,x,y);
+        affichage(grille);
+    }
     return 0;
 }
