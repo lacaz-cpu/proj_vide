@@ -1,2 +1,3 @@
 #include "game_structures.h"
-#include "fct_jeu.h"
+
+void affichage(tuile grille[NB_GRILLE][NB_GRILLE]);

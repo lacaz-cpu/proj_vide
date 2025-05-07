@@ -14,13 +14,16 @@ all: $(EXEC)
 run: $(EXEC)
 	$(BIN)$<
 
-$(EXEC): moteur_jeu.o fonction_jeu.o
+$(EXEC): moteur_jeu.o fonction_jeu.o affichage.o
 	$(CC) $(OBJ)*  -o $(BIN)$@
 	
 moteur_jeu.o: $(SRC)moteur_jeu.c
 	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
 
 fonction_jeu.o : $(SRC)fonction_jeu.c 
+	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
+
+affichage.o : $(SRC)affichage.c 
 	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
 	
 clean:

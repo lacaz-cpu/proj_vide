@@ -38,8 +38,8 @@ void init_position(position tab[NB_TUILES]){
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de départ au grille
     tuile t = depart;
-    grille[mid][mid] = t;
     t.posee = 1;
+    grille[mid][mid] = t;
 }
 
 void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){

@@ -1,5 +1,8 @@
 #include "game_structures.h"
+#include "affichage.h"
 #include "fct_jeu.h"
+
+
 
 int main(int argc, char * argv[])
 {
@@ -14,6 +17,15 @@ int main(int argc, char * argv[])
     //afficher_pile(t);
     tuile grille[NB_GRILLE][NB_GRILLE];
     init_grille(grille);
+    /*
+    for(int i = 0; i < NB_GRILLE;i++){
+        for(int j = 0; j < NB_GRILLE;j++){
+            printf("%d",grille[i][j].posee);
+        }
+        printf("\n");
+    }
+    */
+    affichage(grille);
     printf("%d \n",grille[71][71].posee);
     printf("%c\n",grille[71][71].cotes[0]);
     
