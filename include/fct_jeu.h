@@ -25,3 +25,6 @@ void afficher_pile(tuile * Pile);
 void melange(tuile * Pile);
 
 void init_position(position tab[NB_TUILES]);
+
+
+tuile rotation_tuile(tuile t);

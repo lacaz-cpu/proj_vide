@@ -26,6 +26,9 @@ int main(int argc, char * argv[])
     }
     */
     affichage(grille);
+    afficher_tuile(t[1]);
+    t[1] = rotation_tuile(t[1]);
+    afficher_tuile(t[1]);
     printf("%d \n",grille[71][71].posee);
     printf("%c\n",grille[71][71].cotes[0]);
     

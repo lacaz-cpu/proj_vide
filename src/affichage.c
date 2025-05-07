@@ -19,3 +19,12 @@ void affichage(tuile grille[NB_GRILLE][NB_GRILLE]){
         printf("\n");
     }
 }
+
+
+void afficher_tuile(tuile tuile){
+    printf("-----------\n");
+    printf("|    %c    |\n", tuile.cotes[0]);
+    printf("| %c  %c  %c |\n", tuile.cotes[3], tuile.centre, tuile.cotes[1]);
+    printf("|    %c    |\n", tuile.cotes[2]);
+    printf("-----------\n\n");
+}

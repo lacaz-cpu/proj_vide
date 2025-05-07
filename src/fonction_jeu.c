@@ -142,6 +142,16 @@ void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre 
     }
 }
 
+
+tuile rotation_tuile(tuile T){
+    int i, tmp = T.cotes[3];
+
+    for (i = 3; i > 0; i--)
+        T.cotes[i] = T.cotes[i - 1];
+    T.cotes[0] = tmp;
+    return T;
+}
+
 /*
 tuile tuile_vide(){
     //renvoie une tuile vide
