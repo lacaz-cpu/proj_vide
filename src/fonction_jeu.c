@@ -87,7 +87,6 @@ int placement_tuile(int x,int y,tuile grille[NB_GRILLE][NB_GRILLE],tuile tl){ //
         if(grille[x][y+1].posee == 0 || grille[x][y+1].cotes[SUD] == tl.cotes[NORD])
             nb ++;
     }
-    printf("%d",nb);
     if(nb == 4)
         return 1;
     return 0;
