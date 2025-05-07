@@ -1,5 +1,5 @@
 #include "fct_jeu.h"
-
+tuile depart;
 
 void initJoueurs(joueur joueurs[],int nombreJoueurs){
     for(int i = 0;i < nombreJoueurs;i++){
@@ -35,20 +35,11 @@ void init_position(position tab[NB_TUILES]){
     tab[0].y = 71;
 }
 
-tuile define_tuiledepart(){ // creer la tuile de départ 
-    tuile tuile;
-    tuile.centre = 'r';
-    tuile.cotes[0] = 'v';
-    tuile.cotes[0] = 'r';
-    tuile.cotes[0] = 'p';
-    tuile.cotes[0] = 'r';
-    tuile.posee = 1;
-    return tuile;
-}
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de départ au grille
-    tuile t = define_tuiledepart();
+    tuile t = depart;
     grille[mid][mid] = t;
+    t.posee = 1;
 }
 
 void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
@@ -118,8 +109,14 @@ void parseur_csv(char* fileName, tuile* pile) {
 
             value = strtok(NULL, ", ");
         }
-        pile[index] = tile;
-        pile[index].identifiant = index;
+        if(index == 0){
+            depart = tile;
+            depart.identifiant = index;
+        }
+        else{
+            pile[index] = tile;
+            pile[index].identifiant = index;
+        }
         index++;
     }
 fclose(fichier);
@@ -144,6 +141,7 @@ void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre 
         printf("%d\n",pile[i].identifiant);
     }
 }
+
 /*
 tuile tuile_vide(){
     //renvoie une tuile vide
