@@ -14,7 +14,10 @@ int main(int argc, char * argv[])
     joueur Joueurs[5];
     partie(grille,&nb_joueur,&nb_ia,Joueurs);
     melange(t);
-    affichage(grille);
+    affiche_g();
+    int d;
+    printf("                           Entrez : \n");
+    scanf("%d",&d);
     tuile tr = piocher(t,0);
     afficher_tuile(tr);
     printf("%d",placement_tuile(grille,tr,71,71,71,71));

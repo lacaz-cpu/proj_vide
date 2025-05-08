@@ -161,3 +161,44 @@ tuile piocher(tuile *pile,int nb_tour){// pioche le premiere élément et décal
 }
 
 
+void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile Pile[NB_TUILES], int *nb_tours, int nb_joueurs,joueur *Joueurs, int x,int y)
+{
+    int i = 0, x_tmp, y_tmp;
+    printf("Entrez le numéro de la colonne : ");
+    scanf("%d", &y);
+    printf("Entrez le numéro de la ligne : ");
+    scanf("%d", &x);
+    if (x > NB_GRILLE - 2 || y > NB_GRILLE - 2 || x < 0 || y < 0)
+    {
+        printf("Coordonnées inexistantes.");
+    }
+    int trouve;
+    if (Grille[x][y].posable == 1)
+    {
+        Grille[x][y] = piocher(Pile, *nb_tours);
+
+        if (Joueurs[(*nb_tours - 1) % nb_joueurs].pionsjouer < 6)
+            poser_pion(Grille, Joueurs, *nb_tours, nb_joueurs, x, y);
+        *nb_tours += 1;
+    }
+    else
+    {
+        printf("\nLa tuile n'est pas jouable ici.\n\n");
+    }
+}
+
+
+void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tours, int nb_joueurs, int x, int y)
+{
+    int P;
+    printf("\nVoulez-vous placer un pion sur la tuile ?\n(oui: 1 - non: 0) : ");
+    scanf("%d", &P);
+    int position = 0;
+    printf("Choisissez le côté où poser le pion :\n\t-0 : Haut\n\t-1 : Droite\n\t-2 : Bas \n\t-3 : Gauche \n\t-4 : Centre\n\t-5 : Annuler\n");
+    scanf("%d", &position);  
+    if (position == 5)
+        return;
+        Grille[x][y].pions.id = (nb_tours - 1) % nb_joueurs;
+        Grille[x][y].pions.pos = position;
+        Joueurs[(nb_tours - 1) % nb_joueurs].pionsjouer++;
+}
