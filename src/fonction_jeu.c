@@ -183,7 +183,7 @@ void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile Pile[NB_TUILES], int *
     }
     else
     {
-        printf("\nLa tuile n'est pas jouable ici.\n\n");
+        printf("\nLa tuile ne peut etre placer ici\n\n");
     }
 }
 
