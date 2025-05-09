@@ -4,11 +4,11 @@
 #include "raylib.h"
 
 
-#define COLS 10
-#define ROWS 10
+#define COLS 72
+#define ROWS 72
 
-const int screenWidth = 400;
-const int screenHeight = 400;
+const int screenWidth = 800;
+const int screenHeight = 800;
 
 const int tileWidth = screenWidth/COLS;
 const int tileHeight = screenHeight/ROWS;
@@ -42,11 +42,19 @@ int main(void){
         if (IsKeyDown(KEY_DOWN)) camera.target.y+=5;
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        BeginMode2D(camera);
+        DrawRectangle(-6000, 320, 13000, 8000, DARKGRAY);
+        DrawLine((int)camera.target.x, -screenHeight*10, (int)camera.target.x, screenHeight*10, GREEN);
+        DrawLine(-screenWidth*10, (int)camera.target.y, screenWidth*10, (int)camera.target.y, GREEN);
+
+        EndMode2D();
+        /*
         for(int i = 0; i < COLS;i++){
             for(int j = 0; j < ROWS;j++){
-                DrawRectangleLines(grid[i][j].x*tileWidth,grid[i][j].y*tileHeight,tileWidth,tileHeight,BLACK);
+                DrawTexture(textures[0],i*tileWidth,j*tileHeight,WHITE);
             } 
         }
+        */
         EndDrawing();
     }
     for(int i=0; i<24; i++){
