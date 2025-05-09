@@ -4,8 +4,8 @@
 #include "raylib.h"
 
 
-#define COLS 72
-#define ROWS 72
+#define COLS 1
+#define ROWS 1
 
 const int screenWidth = 800;
 const int screenHeight = 800;
