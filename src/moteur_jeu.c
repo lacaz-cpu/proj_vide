@@ -1,25 +1,57 @@
 #include "game_structures.h"
 #include "affichage.h"
 #include "fct_jeu.h"
+#include "raylib.h"
 
 
+#define COLS 10
+#define ROWS 10
 
-int main(int argc, char * argv[])
-{
-    
-    tuile t[NB_TUILES];
-    parseur_csv("./src/tuiles_base_simplifiees.csv",t);
-    tuile grille[NB_GRILLE][NB_GRILLE];
-    int nb_joueur;
-    joueur Joueurs[5];
-    partie(grille,&nb_joueur,Joueurs);
-    melange(t);
-    afficher_tuile(grille[mid][mid]);
-    int r = 1,x,y;
-    while(r != 0){
-        tuile tl = piocher(t,0);
-        placement_tuile(grille,tl,71,71,73,73);
-        poser_tuile(grille,tl,1,nb_joueur,Joueurs,x,y);
+const int screenWidth = 400;
+const int screenHeight = 400;
+
+const int tileWidth = screenWidth/COLS;
+const int tileHeight = screenHeight/ROWS;
+
+void tileDraw(tuile t ){
+
+}
+int main(void){
+    tuile grid[ROWS][COLS];
+    for(int i = 0; i < COLS;i++){
+        for(int j = 0; j < ROWS;j++){
+            grid[i][j].x = i;
+            grid[i][j].y = j;
+        } 
     }
+    InitWindow(screenWidth, screenHeight, "Carcassone");
+    Camera2D camera={0};
+    camera.target=(Vector2){0,0};   // Point que la caméra suit
+    camera.offset=(Vector2){400,300}; // Centre de l'écran
+    Texture2D textures[24]={};
+    char tmp[30];
+    for(int i=0; i<24; i++){
+        sprintf(tmp,"./src/tile/Tile_%d.png",i);
+        textures[i]=LoadTexture(tmp);
+    }
+    SetTargetFPS(60);
+    while (!WindowShouldClose()){
+        if (IsKeyDown(KEY_RIGHT)) camera.target.x+=5;
+        if (IsKeyDown(KEY_LEFT)) camera.target.x-=5;
+        if (IsKeyDown(KEY_UP)) camera.target.y-=5;
+        if (IsKeyDown(KEY_DOWN)) camera.target.y+=5;
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        for(int i = 0; i < COLS;i++){
+            for(int j = 0; j < ROWS;j++){
+                DrawRectangleLines(grid[i][j].x*tileWidth,grid[i][j].y*tileHeight,tileWidth,tileHeight,BLACK);
+            } 
+        }
+        EndDrawing();
+    }
+    for(int i=0; i<24; i++){
+        UnloadTexture(textures[i]);
+    }
+    CloseWindow();
     return 0;
 }

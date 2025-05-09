@@ -24,8 +24,6 @@ void afficher_pile(tuile * Pile);
 
 void melange(tuile * Pile);
 
-void init_position(position tab[NB_TUILES]);
-
 void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs);
 
 tuile rotation_tuile(tuile t);

@@ -27,10 +27,9 @@ typedef struct{
     pion pions;
     int posee;
     int posable; 
+    int x;
+    int y;
 }tuile;
 
-typedef struct{
-    int x,y;
-}position;
 
 #endif // GAME_STRUCTURES
