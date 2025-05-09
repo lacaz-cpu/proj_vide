@@ -10,23 +10,16 @@ int main(int argc, char * argv[])
     tuile t[NB_TUILES];
     parseur_csv("./src/tuiles_base_simplifiees.csv",t);
     tuile grille[NB_GRILLE][NB_GRILLE];
-    int nb_joueur, nb_ia;
+    int nb_joueur;
     joueur Joueurs[5];
-    partie(grille,&nb_joueur,&nb_ia,Joueurs);
+    partie(grille,&nb_joueur,Joueurs);
     melange(t);
-    affiche_g();
-    int d;
-    printf("                           Entrez : \n");
-    scanf("%d",&d);
-    tuile tr = piocher(t,0);
-    afficher_tuile(tr);
-    printf("%d",placement_tuile(grille,tr,71,71,71,71));
-    if(placement_tuile(grille,tr,71,71,71,71) > 0){
-        int x,y;
-        printf("entrez les coordonnée");
-        scanf("%d %d",&x,&y);
-        placer_tuile(grille,tr,x,y);
-        affichage(grille);
+    afficher_tuile(grille[mid][mid]);
+    int r = 1,x,y;
+    while(r != 0){
+        tuile tl = piocher(t,0);
+        placement_tuile(grille,tl,71,71,73,73);
+        poser_tuile(grille,tl,1,nb_joueur,Joueurs,x,y);
     }
     return 0;
 }

@@ -2,7 +2,7 @@
 #include "affichage.h"
 tuile depart;
 
-void initJoueurs(joueur *joueurs,int *nb_joueurs,int *nb_ia){
+void initJoueurs(joueur *joueurs,int *nb_joueurs){
     int i;
     for (i = 0; i < *nb_joueurs; i++){
         joueurs[i].ia = 0;
@@ -10,13 +10,6 @@ void initJoueurs(joueur *joueurs,int *nb_joueurs,int *nb_ia){
         joueurs[i].score = 0;
         joueurs[i].pion = 7;
     }
-    for (i = *nb_joueurs; i < *nb_joueurs + *nb_ia; i++){
-        joueurs[i].ia = 1;
-        joueurs[i].id = i;
-        joueurs[i].score = 0;
-        joueurs[i].pion = 7; 
-    }
-
 }
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de départ au grille
@@ -124,19 +117,17 @@ void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre 
     }
 }
 
-void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,int *nb_ia,joueur *Joueurs){ // définie le nombre de joueur et d'ia et initialise la partie
+void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs){ // définie le nombre de joueur et d'ia et initialise la partie
     printf("\v\v\v\v\v\tNombre de joueurs : ");
     scanf("%d", nb_joueurs);
-    printf("\n\n\tNombre d'IA : ");
-    scanf("%d", nb_ia);
     printf("\n");
-    if (*nb_joueurs + *nb_ia < 2 || *nb_joueurs + *nb_ia > 5)
+    if (*nb_joueurs < 2 || *nb_joueurs > 5)
     {
         printf("\tLe nombre de joueurs doit être compris entre 2 et 5.\n");
-        partie(grille, nb_joueurs, nb_ia, Joueurs);
+        partie(grille, nb_joueurs,Joueurs);
     }
     init_grille(grille);
-    initJoueurs(Joueurs,nb_joueurs,nb_ia);
+    initJoueurs(Joueurs,nb_joueurs);
     initTuileDepart(grille);
 }
 
@@ -161,9 +152,8 @@ tuile piocher(tuile *pile,int nb_tour){// pioche le premiere élément et décal
 }
 
 
-void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile Pile[NB_TUILES], int *nb_tours, int nb_joueurs,joueur *Joueurs, int x,int y)
+void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile t, int *nb_tours, int nb_joueurs,joueur *Joueurs, int x,int y)
 {
-    int i = 0, x_tmp, y_tmp;
     printf("Entrez le numéro de la colonne : ");
     scanf("%d", &y);
     printf("Entrez le numéro de la ligne : ");
@@ -172,10 +162,9 @@ void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile Pile[NB_TUILES], int *
     {
         printf("Coordonnées inexistantes.");
     }
-    int trouve;
     if (Grille[x][y].posable == 1)
     {
-        Grille[x][y] = piocher(Pile, *nb_tours);
+        placer_tuile(Grille,t,x,y);
 
         if (Joueurs[(*nb_tours - 1) % nb_joueurs].pionsjouer < 6)
             poser_pion(Grille, Joueurs, *nb_tours, nb_joueurs, x, y);
@@ -192,13 +181,14 @@ void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tour
 {
     int P;
     printf("\nVoulez-vous placer un pion sur la tuile ?\n(oui: 1 - non: 0) : ");
-    scanf("%d", &P);
+    scanf("%d", &P);    
     int position = 0;
     printf("Choisissez le côté où poser le pion :\n\t-0 : Haut\n\t-1 : Droite\n\t-2 : Bas \n\t-3 : Gauche \n\t-4 : Centre\n\t-5 : Annuler\n");
     scanf("%d", &position);  
     if (position == 5)
         return;
-        Grille[x][y].pions.id = (nb_tours - 1) % nb_joueurs;
-        Grille[x][y].pions.pos = position;
-        Joueurs[(nb_tours - 1) % nb_joueurs].pionsjouer++;
+
+    Grille[x][y].pions.id = (nb_tours - 1) % nb_joueurs;
+    Grille[x][y].pions.pos = position;
+    Joueurs[(nb_tours - 1) % nb_joueurs].pionsjouer++;
 }

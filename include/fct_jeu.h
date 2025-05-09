@@ -8,7 +8,7 @@
 #define OUEST 3
 
 
-void initJoueurs(joueur *joueurs,int *nb_joueurs,int *nb_ia);
+void initJoueurs(joueur *joueurs,int *nb_joueurs);
 
 void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]);
 
@@ -26,8 +26,12 @@ void melange(tuile * Pile);
 
 void init_position(position tab[NB_TUILES]);
 
-void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,int *nb_ia,joueur *Joueurs);
+void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs);
 
 tuile rotation_tuile(tuile t);
 
 tuile piocher(tuile *pile,int nb_tour);
+
+void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile t, int *nb_tours, int nb_joueurs,joueur *Joueurs, int x,int y);
+
+void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tours, int nb_joueurs, int x, int y);
