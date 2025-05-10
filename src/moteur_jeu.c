@@ -43,13 +43,11 @@ int main(void){
         if (IsKeyDown(KEY_DOWN)) camera.target.y+=5;
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        BeginMode2D(camera);
         for(int i = 0; i < 72;i++){
             for(int j = 0; j < 72;j++){
                 DrawRectangleLines(i*tileWidth,j*tileHeight,tileWidth,tileHeight,BLACK);
             } 
         }
-        EndMode2D();
         tileDraw(tr,1,1);
         //tileDraw(piocher(Pile,1),1,2);
         EndDrawing();
