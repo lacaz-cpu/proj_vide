@@ -64,7 +64,7 @@ int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int z,int 
     return nb;
 }
 
-void parseur_csv(char* fileName, tuile* pile) {
+void parseur_csv(char* fileName, tuile* pile){
     FILE* fichier = fopen(fileName, "r");
     int nb, index = 0;
     char temp[1024];
@@ -84,14 +84,8 @@ void parseur_csv(char* fileName, tuile* pile) {
             nb++;
             value = strtok(NULL, ", ");
         }
-        if(index == 0){
-            depart = tile;
-            depart.identifiant = index;
-        }
-        else{
-            pile[index-1] = tile;
-            pile[index-1].identifiant = index;
-        }
+        pile[index] = tile;
+        pile[index].identifiant = index;
         index++;
     }
 fclose(fichier);
@@ -109,7 +103,7 @@ void melange(tuile * pile){ // mélange la pile
         pile[nb] = tmp; 
         nb--;
     }
-}
+}   
 
 void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre dans laquel la pile a était melanger et si la pile a bien était melanger
     for(int i = 0; i < NB_TUILES;i++){
@@ -147,7 +141,7 @@ tuile piocher(tuile *pile,int nb_tour){// pioche le premiere élément et décal
     tuile tmp = pile[0];
     for(int i = 1;i < NB_TUILES-nb_tour;i++){
         pile[i-1] = pile[i];
-    } 
+    }
     return tmp;
 }
 
@@ -191,4 +185,26 @@ void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tour
     Grille[x][y].pions.id = (nb_tours - 1) % nb_joueurs;
     Grille[x][y].pions.pos = position;
     Joueurs[(nb_tours - 1) % nb_joueurs].pionsjouer++;
+}
+
+
+
+void find_num(tuile *Pile,tuile * tile){
+    int nb;
+    for(int w = 0; w < NB_TUILES;w++){
+        for(int i = 0;i < 24;i++){
+            nb = 0;
+            for(int j = 0;j < 4;j++){
+                if(Pile[w].cotes[j] == tile[i].cotes[j]){
+                    nb++;
+                }
+            }
+            if(Pile[w].centre == tile[i].centre)
+                nb++;
+            if(nb == 5){
+                Pile[w].numero = i;
+                break;
+            }
+        }
+    }
 }

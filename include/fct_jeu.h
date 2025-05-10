@@ -33,3 +33,5 @@ tuile piocher(tuile *pile,int nb_tour);
 void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile t, int *nb_tours, int nb_joueurs,joueur *Joueurs, int x,int y);
 
 void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tours, int nb_joueurs, int x, int y);
+
+void find_num(tuile *Pile,tuile *tile);

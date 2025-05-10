@@ -22,14 +22,12 @@ typedef struct{
 
 typedef struct{
     int identifiant;
+    int numero;
     char cotes[4];
     char centre;
     pion pions;
     int posee;
     int posable; 
-    int x;
-    int y;
 }tuile;
-
 
 #endif // GAME_STRUCTURES
