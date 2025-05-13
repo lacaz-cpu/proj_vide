@@ -1,3 +1,11 @@
+#ifndef FCT_JEU
+#define FCT_JEU
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
 #include "game_structures.h"
 #define MAX_PLATEAU 143
 #define max_pos_possibles 432
@@ -10,11 +18,7 @@
 
 void initJoueurs(joueur *joueurs,int *nb_joueurs);
 
-void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]);
-
 void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y);
-
-void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]);
 
 int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int y,int z,int w);
 
@@ -24,7 +28,7 @@ void afficher_pile(tuile * Pile);
 
 void melange(tuile * Pile);
 
-void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs);
+void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs,tuile *Pile);
 
 tuile rotation_tuile(tuile t);
 
@@ -35,3 +39,5 @@ void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile t, int *nb_tours, int 
 void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tours, int nb_joueurs, int x, int y);
 
 void find_num(tuile *Pile,tuile *tile);
+
+#endif // FCT_JEU

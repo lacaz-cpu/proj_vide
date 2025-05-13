@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "fct_jeu.h": "c"
+        "fct_jeu.h": "c",
+        "game_structures.h": "c",
+        "stdio.h": "c",
+        "string.h": "c"
     }
 }

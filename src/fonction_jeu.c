@@ -1,6 +1,5 @@
 #include "fct_jeu.h"
-#include "affichage.h"
-tuile depart;
+
 
 void initJoueurs(joueur *joueurs,int *nb_joueurs){
     int i;
@@ -12,24 +11,10 @@ void initJoueurs(joueur *joueurs,int *nb_joueurs){
     }
 }
 
-void initTuileDepart(tuile grille[NB_GRILLE][NB_GRILLE]){ // assigne la tuile de départ au grille
-    tuile t = depart;
-    t.posee = 1;
-    t.posable = 0;
-    grille[mid][mid] = t;
-}
-
 void placer_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile t,int x,int y){
     grille[x][y] = t;
     grille[x][y].posee = 1;
-}
-
-void init_grille(tuile grille[NB_GRILLE][NB_GRILLE]){
-    for(int i = 0; i < NB_GRILLE;i++){
-        for(int j = 0;j < NB_GRILLE;j++){
-            grille[i][j].posee = 0;
-        }
-    }
+    grille[x][y].posable = 0;
 }
 
 int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int z,int y,int w){ // vérifie si la tuile peut etre placer 
@@ -43,11 +28,12 @@ int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int z,int 
                 if (grille[i - 1][j].posee == 1 || grille[i][j + 1].posee == 1 || grille[i + 1][j].posee == 1 || grille[i][j - 1].posee == 1)
                 {
                     //vérifie si chaque bord de la tuiles et compatible 
-                    if (((tl.cotes[0] == grille[i - 1][j].cotes[2] || grille[i - 1][j].posee == 0) || ((tl.cotes[0] == 'v' || tl.cotes[0] == 'b') && (grille[i - 1][j].cotes[2] == 'v' || grille[i - 1][j].cotes[2] == 'b' || grille[i - 1][j].posee == 0))) &&
-                        ((tl.cotes[1] == grille[i][j + 1].cotes[3] || grille[i][j + 1].posee == 0) || ((tl.cotes[1] == 'v' || tl.cotes[1] == 'b') && (grille[i][j + 1].cotes[3] == 'v' || grille[i][j + 1].cotes[3] == 'b' || grille[i][j + 1].posee == 0))) &&
-                        ((tl.cotes[2] == grille[i + 1][j].cotes[0] || grille[i + 1][j].posee == 0) || ((tl.cotes[2] == 'v' || tl.cotes[2] == 'b') && (grille[i + 1][j].cotes[0] == 'v' || grille[i + 1][j].cotes[0] == 'b' || grille[i + 1][j].posee == 0))) &&
-                        ((tl.cotes[3] == grille[i][j - 1].cotes[1] || grille[i][j - 1].posee == 0) || ((tl.cotes[3] == 'v' || tl.cotes[3] == 'b') && (grille[i][j - 1].cotes[1] == 'v' || grille[i][j - 1].cotes[1] == 'b' || grille[i][j - 1].posee == 0))))
-                    {
+                    if (((tl.cotes[NORD] == grille[i - 1][j].cotes[SUD] || grille[i - 1][j].posee == 0) || ((tl.cotes[NORD] == 'v' || tl.cotes[NORD] == 'b') && (grille[i - 1][j].cotes[SUD] == 'v' || grille[i - 1][j].cotes[SUD] == 'b' || grille[i - 1][j].posee == 0))) &&
+                        ((tl.cotes[EST] == grille[i][j + 1].cotes[OUEST] || grille[i][j + 1].posee == 0) || ((tl.cotes[EST] == 'v' || tl.cotes[EST] == 'b') && (grille[i][j + 1].cotes[OUEST] == 'v' || grille[i][j + 1].cotes[OUEST] == 'b' || grille[i][j + 1].posee == 0))) &&
+                        ((tl.cotes[SUD] == grille[i + 1][j].cotes[NORD] || grille[i + 1][j].posee == 0) || ((tl.cotes[SUD] == 'v' || tl.cotes[SUD] == 'b') && (grille[i + 1][j].cotes[NORD] == 'v' || grille[i + 1][j].cotes[NORD] == 'b' || grille[i + 1][j].posee == 0))) &&
+                        ((tl.cotes[OUEST] == grille[i][j - 1].cotes[EST] || grille[i][j - 1].posee == 0) || ((tl.cotes[OUEST] == 'v' || tl.cotes[OUEST] == 'b') && (grille[i][j - 1].cotes[EST] == 'v' || grille[i][j - 1].cotes[EST] == 'b' || grille[i][j - 1].posee == 0))))
+                    {   
+                        printf("%d %d",i,j);
                         grille[i][j].posable = 1;
                         nb++;
                     }
@@ -64,11 +50,12 @@ int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int z,int 
     return nb;
 }
 
-void parseur_csv(char* fileName, tuile* pile){
-    FILE* fichier = fopen(fileName, "r");
+
+void parseur_csv(char* fname, tuile* pile){
+    FILE* fichier = fopen(fname, "r");
     int nb, index = 0;
     char temp[1024];
-    while (fgets(temp, 1024, fichier)) {
+    while (fgets(temp, sizeof(temp), fichier)) {
         tuile tile;
         nb = 0;
         char* value = strtok(temp, ", ");
@@ -86,9 +73,10 @@ void parseur_csv(char* fileName, tuile* pile){
         }
         pile[index] = tile;
         pile[index].identifiant = index;
+        pile[index].posee = 0;
         index++;
     }
-fclose(fichier);
+    fclose(fichier);
 }
 
 void melange(tuile * pile){ // mélange la pile 
@@ -107,22 +95,20 @@ void melange(tuile * pile){ // mélange la pile
 
 void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre dans laquel la pile a était melanger et si la pile a bien était melanger
     for(int i = 0; i < NB_TUILES;i++){
-        printf("%d\n",pile[i].identifiant);
+        printf("%d\n",pile[i].numero);
     }
 }
 
-void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs){ // définie le nombre de joueur et d'ia et initialise la partie
-    printf("\v\v\v\v\v\tNombre de joueurs : ");
-    scanf("%d", nb_joueurs);
-    printf("\n");
+void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs,tuile *Pile){ // définie le nombre de joueur et d'ia et initialise la partie
     if (*nb_joueurs < 2 || *nb_joueurs > 5)
     {
         printf("\tLe nombre de joueurs doit être compris entre 2 et 5.\n");
-        partie(grille, nb_joueurs,Joueurs);
+        partie(grille, nb_joueurs,Joueurs,Pile);
     }
-    init_grille(grille);
     initJoueurs(Joueurs,nb_joueurs);
-    initTuileDepart(grille);
+    tuile depart = piocher(Pile,0);
+    grille[NB_TUILES][NB_TUILES] = depart;
+    melange(Pile);
 }
 
 
@@ -194,13 +180,13 @@ void find_num(tuile *Pile,tuile * tile){
     for(int w = 0; w < NB_TUILES;w++){
         for(int i = 0;i < 24;i++){
             nb = 0;
+            if(Pile[w].centre == tile[i].centre)
+                nb++;
             for(int j = 0;j < 4;j++){
                 if(Pile[w].cotes[j] == tile[i].cotes[j]){
                     nb++;
                 }
             }
-            if(Pile[w].centre == tile[i].centre)
-                nb++;
             if(nb == 5){
                 Pile[w].numero = i;
                 break;

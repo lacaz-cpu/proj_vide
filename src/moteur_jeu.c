@@ -1,31 +1,32 @@
 #include "game_structures.h"
-#include "affichage.h"
-#include "fct_jeu.h"
 #include "raylib.h"
-
+#include "fct_jeu.h"
 
 #define COLS 72
 #define ROWS 72
 
-const int screenWidth = 900;
-const int screenHeight = 900;
+const int screenWidth = 800;
+const int screenHeight = 800;
 
 const int tilesize = 100;
 
 tuile tile_num[24];
 tuile Pile[72];
 Texture2D textures[24]={};
+tuile grille[143][143];
+joueur Joueur[5];
+int nb_joueur = 2;
 
 void tileDraw(tuile t,int x,int y){
     DrawTexture(textures[t.numero],x*tilesize,y*tilesize,WHITE);
 }
 
 int main(void){
-    parseur_csv("./src/tuile_liste.csv",tile_num);
     parseur_csv("./src/tuiles_base_simplifiees.csv",Pile);
+    parseur_csv("./src/tuile_liste.csv",tile_num);
     find_num(Pile,tile_num);
     Camera2D camera = { 0 };
-    camera.target = (Vector2){71*tilesize,71*tilesize};
+    camera.target = (Vector2){72*tilesize,72*tilesize};
     camera.offset = (Vector2){screenHeight/2,screenWidth/2};
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
@@ -36,7 +37,9 @@ int main(void){
         textures[i]=LoadTexture(tmp);
     }
     int x,y;
-    tuile tr = piocher(Pile,0);
+    partie(grille,&nb_joueur,Joueur,Pile);
+    tuile jouer = piocher(Pile,1);
+    placement_tuile(grille,jouer,1,140,1,140);
     SetTargetFPS(60);
     while (!WindowShouldClose()){
         if (IsKeyDown(KEY_RIGHT)) camera.target.x+=5;
@@ -55,19 +58,19 @@ int main(void){
         BeginDrawing();
         ClearBackground(RAYWHITE);
         BeginMode2D(camera);
-        Vector2 mx = GetMousePosition();
-        int I = mx.x / tilesize;
-        int J = mx.y / tilesize;
-        DrawText(TextFormat("[%i, %i]", I, J),150,150,0,BLACK);
-        for(int i = 0; i < ROWS*2;i++){
-            for(int j = 0; j < COLS*2;j++){
+        for(int i = 0; i < NB_GRILLE;i++){
+            for(int j = 0; j < NB_GRILLE;j++){
                 DrawRectangleLines(i*tilesize,j*tilesize,tilesize,tilesize,BLACK);
+                if(grille[i][j].posee == 1){
+                    tileDraw(grille[i][j],i,j);
+                }
+                if(grille[i][j].posable == 1){
+                    DrawRectangle(i*tilesize,j*tilesize,tilesize,tilesize,LIGHTGRAY);
+                }
             } 
         }
-        tileDraw(tr,71,71);
         EndMode2D();
-
-        //tileDraw(piocher(Pile,1),1,2);
+        tileDraw(jouer,0,0);
         EndDrawing();
     }
     for(int i=0; i<24; i++){

@@ -14,7 +14,7 @@ all: $(EXEC)
 run: $(EXEC)
 	$(BIN)$<
 
-$(EXEC): moteur_jeu.o fonction_jeu.o affichage.o 
+$(EXEC): moteur_jeu.o fonction_jeu.o 
 	$(CC) $(OBJ)*  -o $(BIN)$@ $(LIB)libraylib.a -lm
 	
 moteur_jeu.o: $(SRC)moteur_jeu.c
@@ -23,8 +23,5 @@ moteur_jeu.o: $(SRC)moteur_jeu.c
 fonction_jeu.o : $(SRC)fonction_jeu.c 
 	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
 
-affichage.o : $(SRC)affichage.c 
-	$(CC) $(CFLAGS) $< -c -I $(INC) -o $(OBJ)$@
-	
 clean:
 	rm $(BIN)* $(OBJ)*

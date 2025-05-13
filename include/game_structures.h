@@ -1,9 +1,5 @@
 #ifndef GAME_STRUCTURES
 #define GAME_STRUCTURES
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
 
 #define NB_TUILES 72
 #define NB_GRILLE 143
@@ -29,5 +25,9 @@ typedef struct{
     int posee;
     int posable; 
 }tuile;
+
+typedef struct{
+    int x,y;
+}position;
 
 #endif // GAME_STRUCTURES
