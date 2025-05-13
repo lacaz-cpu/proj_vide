@@ -51,7 +51,7 @@ int placement_tuile(tuile grille[NB_GRILLE][NB_GRILLE],tuile tl,int x,int z,int 
 }
 
 
-void parseur_csv(char* fname, tuile* pile){
+void parseur_csv(char* fname, tuile* pile){ // lis le fichier csv
     FILE* fichier = fopen(fname, "r");
     int nb, index = 0;
     char temp[1024];
@@ -95,14 +95,14 @@ void melange(tuile * pile){ // mélange la pile
 
 void afficher_pile(tuile * pile){ // affiche la pile qui permet de voir l'ordre dans laquel la pile a était melanger et si la pile a bien était melanger
     for(int i = 0; i < NB_TUILES;i++){
-        printf("%d\n",pile[i].numero);
+        printf("%d\n",pile[i].identifiant);
     }
 }
 
 void partie(tuile grille[NB_GRILLE][NB_GRILLE], int *nb_joueurs,joueur *Joueurs,tuile *Pile){ // définie le nombre de joueur et d'ia et initialise la partie
     if (*nb_joueurs < 2 || *nb_joueurs > 5)
     {
-        printf("\tLe nombre de joueurs doit être compris entre 2 et 5.\n");
+        //afficher sur le canva qu'il est ne peut y avoir max que 5 et joueur et min 2 joueur
         partie(grille, nb_joueurs,Joueurs,Pile);
     }
     initJoueurs(Joueurs,nb_joueurs);
@@ -134,13 +134,9 @@ tuile piocher(tuile *pile,int nb_tour){// pioche le premiere élément et décal
 
 void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile t, int *nb_tours, int nb_joueurs,joueur *Joueurs, int x,int y)
 {
-    printf("Entrez le numéro de la colonne : ");
-    scanf("%d", &y);
-    printf("Entrez le numéro de la ligne : ");
-    scanf("%d", &x);
     if (x > NB_GRILLE - 2 || y > NB_GRILLE - 2 || x < 0 || y < 0)
     {
-        printf("Coordonnées inexistantes.");
+        //afficher sur le canva coordonnées invalide 
     }
     if (Grille[x][y].posable == 1)
     {
@@ -153,17 +149,16 @@ void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile t, int *nb_tours, int 
     else
     {
         printf("\nLa tuile ne peut etre placer ici\n\n");
+        //afficher sur le canva que la tuile ne peut etre placer
     }
 }
 
 
 void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tours, int nb_joueurs, int x, int y)
 {
-    int P;
-    printf("\nVoulez-vous placer un pion sur la tuile ?\n(oui: 1 - non: 0) : ");
-    scanf("%d", &P);    
+    int P; 
     int position = 0;
-    printf("Choisissez le côté où poser le pion :\n\t-0 : Haut\n\t-1 : Droite\n\t-2 : Bas \n\t-3 : Gauche \n\t-4 : Centre\n\t-5 : Annuler\n");
+    //demander sur le canva ou placer le pion (0,1,2,3,4,5)
     scanf("%d", &position);  
     if (position == 5)
         return;
@@ -175,7 +170,7 @@ void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tour
 
 
 
-void find_num(tuile *Pile,tuile * tile){
+void find_num(tuile *Pile,tuile * tile){ // trouve le numero tuile affilié a l'image.png
     int nb;
     for(int w = 0; w < NB_TUILES;w++){
         for(int i = 0;i < 24;i++){

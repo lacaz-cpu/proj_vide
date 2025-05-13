@@ -8,8 +8,7 @@
 
 #include "game_structures.h"
 #define MAX_PLATEAU 143
-#define max_pos_possibles 432
-#define mid 71
+#define mid 72
 #define NORD 0 
 #define EST 1 
 #define SUD 2
