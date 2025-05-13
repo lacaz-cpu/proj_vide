@@ -156,7 +156,6 @@ void poser_tuile(tuile Grille[NB_GRILLE][NB_GRILLE],tuile t, int *nb_tours, int 
 
 void poser_pion(tuile Grille[NB_GRILLE][NB_GRILLE], joueur *Joueurs, int nb_tours, int nb_joueurs, int x, int y)
 {
-    int P; 
     int position = 0;
     //demander sur le canva ou placer le pion (0,1,2,3,4,5)
     scanf("%d", &position);  

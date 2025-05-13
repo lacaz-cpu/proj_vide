@@ -16,6 +16,7 @@ Texture2D textures[24]={};
 tuile grille[143][143];
 joueur Joueur[5];
 int nb_joueur = 2;
+int nb_tour = 1;
 
 void tileDraw(tuile t,int x,int y){
     DrawTexture(textures[t.numero],x*tilesize,y*tilesize,WHITE);
@@ -36,9 +37,9 @@ int main(void){
         sprintf(tmp,"./src/tile/Tile_%d.png",i);
         textures[i]=LoadTexture(tmp);
     }
-    int x,y;
+    int x,y; 
     partie(grille,&nb_joueur,Joueur,Pile);
-    tuile jouer = piocher(Pile,1);
+    tuile jouer = piocher(Pile,nb_tour);
     placement_tuile(grille,jouer,1,140,1,140);
     SetTargetFPS(60);
     while (!WindowShouldClose()){
@@ -53,6 +54,12 @@ int main(void){
             if(indexI >= 0  && indexI < COLS*2 && indexJ >= 0 && indexJ < ROWS*2){
                 x = indexI;
                 y = indexJ;
+                if(grille[x][y].posable == 1){
+                    placer_tuile(grille,jouer,x,y);
+                    nb_tour++;
+                    jouer = piocher(Pile,nb_tour);
+                    placement_tuile(grille,jouer,1,140,1,140);
+                }
             }
         }
         BeginDrawing();
